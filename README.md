@@ -2,12 +2,21 @@
 Companion skill to the heihei voice assistant robot project
 
 ## About
-See website for more info on the robot build
+This is an upgrade to the HeiHei Chicken project to add a servo controller, raspberry pi, and mycroft voice control.
+Mainly a proof of concept and a way to teach myself about working with voice skills and servo controllers.
+
+
+The servo controller used is the Pololu Maestro 6 channel for around $20 USD
+https://www.pololu.com/product/1350
+
+For reference the maestro class and more info can be found at:
+https://github.com/FRC4564/Maestro
+
+See the project at: https://makeprojects.com/project/chicken-robot-voice-assistant
+
 
 ## Examples
-* "What time is it?"
-* "What is the weather today?"
-* "Set an alarm"
+* "Where is Moana?"
 
 ## Credits
 Mitchell Malpartida
@@ -17,5 +26,5 @@ Mitchell Malpartida
 Daily
 
 ## Tags
-#Heihei chicken
+#Heihei #chicken
 
