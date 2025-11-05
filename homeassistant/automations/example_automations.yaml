@@ -1,0 +1,131 @@
+# Example Automations for Chicken Assistant
+# You can import these via the Home Assistant UI or add to automations.yaml
+
+# Basic voice trigger automation
+- id: chicken_moana_question
+  alias: "Chicken - Moana Question"
+  description: "Responds to Moana-related questions"
+  trigger:
+    - platform: conversation
+      command:
+        - "where is moana"
+        - "were you in moana"
+        - "are you in moana"
+  condition:
+    - condition: state
+      entity_id: input_boolean.chicken_enabled
+      state: "on"
+  action:
+    - service: script.chicken_assistant_respond
+    - service: notify.persistent_notification
+      data:
+        title: "Chicken Assistant"
+        message: "The chicken responded to a Moana question!"
+
+# Time-based greeting
+- id: chicken_morning_greeting
+  alias: "Chicken - Morning Greeting"
+  description: "Chicken greets you in the morning"
+  trigger:
+    - platform: time
+      at: "08:00:00"
+  condition:
+    - condition: state
+      entity_id: input_boolean.chicken_enabled
+      state: "on"
+  action:
+    - service: script.chicken_assistant_sound_only
+    - service: tts.speak
+      data:
+        entity_id: tts.piper
+        message: "Good morning! Bawk bawk!"
+
+# Motion-triggered response (if you have motion sensors)
+- id: chicken_motion_response
+  alias: "Chicken - Motion Response"
+  description: "Chicken responds to motion in the room"
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.living_room_motion
+      to: "on"
+  condition:
+    - condition: state
+      entity_id: input_boolean.chicken_enabled
+      state: "on"
+    - condition: time
+      after: "09:00:00"
+      before: "21:00:00"
+  action:
+    - service: script.chicken_assistant_respond
+  mode: single
+  max_exceeded: silent
+
+# Button/switch trigger (useful for testing)
+- id: chicken_manual_trigger
+  alias: "Chicken - Manual Button Trigger"
+  description: "Trigger chicken via button press"
+  trigger:
+    - platform: state
+      entity_id: input_button.trigger_chicken
+      to: null
+  action:
+    - choose:
+        - conditions:
+            - condition: state
+              entity_id: input_select.chicken_response_type
+              state: "Full Response (Sound + Movement)"
+          sequence:
+            - service: script.chicken_assistant_respond
+        - conditions:
+            - condition: state
+              entity_id: input_select.chicken_response_type
+              state: "Movement Only"
+          sequence:
+            - service: script.chicken_assistant_move_only
+        - conditions:
+            - condition: state
+              entity_id: input_select.chicken_response_type
+              state: "Sound Only"
+          sequence:
+            - service: script.chicken_assistant_sound_only
+
+# Advanced: Random responses throughout the day
+- id: chicken_random_response
+  alias: "Chicken - Random Daily Responses"
+  description: "Chicken randomly activates during the day"
+  trigger:
+    - platform: time_pattern
+      hours: "/2"  # Every 2 hours
+  condition:
+    - condition: state
+      entity_id: input_boolean.chicken_enabled
+      state: "on"
+    - condition: time
+      after: "09:00:00"
+      before: "20:00:00"
+    - condition: template
+      value_template: "{{ now().minute < 5 }}"
+  action:
+    - service: script.chicken_assistant_respond
+  mode: single
+
+# Integrate with other automations (example: doorbell)
+- id: chicken_doorbell_announce
+  alias: "Chicken - Doorbell Announcement"
+  description: "Chicken announces when doorbell rings"
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.front_door_bell
+      to: "on"
+  condition:
+    - condition: state
+      entity_id: input_boolean.chicken_enabled
+      state: "on"
+  action:
+    - service: script.chicken_assistant_sound_only
+    - delay:
+        seconds: 2
+    - service: tts.speak
+      data:
+        entity_id: tts.piper
+        message: "Someone is at the door!"

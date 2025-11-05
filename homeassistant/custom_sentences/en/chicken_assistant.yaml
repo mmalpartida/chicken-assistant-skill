@@ -1,0 +1,43 @@
+language: "en"
+intents:
+  ChickenMoana:
+    data:
+      - sentences:
+          - "where is moana"
+          - "where is [the] moana"
+          - "where's moana"
+          - "were you in moana"
+          - "are you in moana"
+          - "were you in [the] movie moana"
+          - "didn't i see you in [the] movie moana"
+          - "didnt i see you in moana"
+          - "are you from moana"
+          - "tell me about moana"
+
+  ChickenGreeting:
+    data:
+      - sentences:
+          - "how are you [chicken]"
+          - "what is [the] weather outside"
+          - "tell me about yourself"
+          - "who are you"
+          - "hey chicken"
+          - "hello chicken"
+
+  ChickenReminder:
+    data:
+      - sentences:
+          - "set a reminder"
+          - "remind me to go outside"
+          - "i would like a reminder"
+          - "create a reminder"
+
+  ChickenSound:
+    data:
+      - sentences:
+          - "make [a] chicken sound"
+          - "make [a] chicken noise"
+          - "bawk bawk"
+          - "do [the] chicken"
+          - "chicken noise"
+          - "be [a] chicken"

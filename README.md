@@ -19,8 +19,9 @@ See the project at: https://makeprojects.com/project/chicken-robot-voice-assista
 
 ### Platform Support
 - ✅ **OVOS** (Open Voice OS) - Primary platform, fully supported
+- ✅ **Home Assistant** - Full integration available!
 - ✅ **Neon AI** - Should work with minimal changes
-- 🔄 **Home Assistant** - Future integration planned
+- 🔄 **OVOS + Home Assistant** - Can run both together!
 
 ### Recent Updates (2025)
 **OVOS Migration:**
@@ -28,6 +29,13 @@ See the project at: https://makeprojects.com/project/chicken-robot-voice-assista
 - Added OVOS plugin entry point registration
 - Created version tracking system
 - Added comprehensive requirements.txt
+
+**Home Assistant Integration:**
+- Complete voice control setup with custom sentences
+- Dashboard UI for manual control
+- Automations for time/sensor triggers
+- Python control script for easy HA integration
+- Comprehensive setup documentation
 
 **Bug Fixes:**
 - Fixed missing parentheses on `servo.close()` calls
@@ -115,6 +123,50 @@ python test.py
 **Audio not playing?**
 - Check OVOS audio service is running
 - Verify speaker configuration in OVOS settings
+
+---
+
+## Home Assistant Integration
+
+Want to control your chicken through Home Assistant? We've got you covered!
+
+### Features
+- 🎤 **Voice Control** - Custom sentences for HA Assist
+- 📱 **Dashboard** - Beautiful UI controls via mobile app or web
+- 🤖 **Automations** - Time, motion, or event-based triggers
+- 🔊 **TTS Integration** - Works with Piper, OpenAI, or any HA TTS
+- 🏠 **Smart Home** - Integrate with lights, sensors, and more
+
+### Quick Start
+
+1. **Copy files to Home Assistant:**
+```bash
+# In your Home Assistant config directory
+cp -r chicken-assistant-skill/homeassistant/* /config/
+```
+
+2. **Follow the setup guide:**
+See [HOME_ASSISTANT_SETUP.md](HOME_ASSISTANT_SETUP.md) for complete instructions.
+
+3. **Say "Where is Moana?"** and watch the magic happen!
+
+### Running OVOS + Home Assistant Together
+
+Want the best of both worlds? Check out [OVOS_HA_INTEGRATION.md](OVOS_HA_INTEGRATION.md) for:
+- Architecture options
+- Communication methods
+- Coordination strategies
+- Complete integration examples
+
+---
+
+## Documentation
+
+- **[OVOS_MIGRATION_PLAN.md](OVOS_MIGRATION_PLAN.md)** - OVOS migration details
+- **[HOME_ASSISTANT_SETUP.md](HOME_ASSISTANT_SETUP.md)** - Complete HA setup guide
+- **[OVOS_HA_INTEGRATION.md](OVOS_HA_INTEGRATION.md)** - Run both platforms together
+
+---
 
 ## Credits
 Mitchell Malpartida

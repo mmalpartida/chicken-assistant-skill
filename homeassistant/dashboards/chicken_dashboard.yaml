@@ -1,0 +1,124 @@
+# Chicken Assistant Dashboard
+# Copy this to a new dashboard in Home Assistant UI
+# Or add as a new view to an existing dashboard
+
+title: Chicken Assistant
+icon: mdi:bird
+path: chicken-assistant
+cards:
+  # Header card
+  - type: markdown
+    content: |
+      # 🐔 HeiHei Chicken Assistant
+
+      Control your animatronic chicken companion!
+
+      Originally from the movie Moana, this chicken responds to voice commands
+      and can be controlled manually from this dashboard.
+
+  # Status and controls
+  - type: vertical-stack
+    cards:
+      # Status card
+      - type: entities
+        title: Status
+        entities:
+          - entity: sensor.chicken_assistant_status
+            name: Status
+          - entity: input_boolean.chicken_enabled
+            name: Enable/Disable
+
+      # Quick actions
+      - type: horizontal-stack
+        cards:
+          - type: button
+            name: Full Response
+            icon: mdi:robot-happy
+            tap_action:
+              action: call-service
+              service: script.chicken_assistant_respond
+            hold_action:
+              action: none
+
+          - type: button
+            name: Move Only
+            icon: mdi:robot
+            tap_action:
+              action: call-service
+              service: script.chicken_assistant_move_only
+            hold_action:
+              action: none
+
+          - type: button
+            name: Sound Only
+            icon: mdi:volume-high
+            tap_action:
+              action: call-service
+              service: script.chicken_assistant_sound_only
+            hold_action:
+              action: none
+
+  # Response type selector
+  - type: entities
+    title: Settings
+    entities:
+      - entity: input_select.chicken_response_type
+        name: Response Type
+
+  # Voice command reference
+  - type: markdown
+    title: Voice Commands
+    content: |
+      ## 🎤 Say these phrases:
+
+      **Moana Questions:**
+      - "Where is Moana?"
+      - "Were you in Moana?"
+      - "Are you in Moana?"
+
+      **Greetings:**
+      - "How are you, chicken?"
+      - "Hey chicken!"
+      - "Tell me about yourself"
+
+      **Sounds:**
+      - "Make a chicken sound"
+      - "Bawk bawk"
+      - "Do the chicken"
+
+      The chicken will respond with movement and sound!
+
+  # Automation controls (if created)
+  - type: entities
+    title: Automations
+    entities:
+      - entity: automation.chicken_moana_question
+        name: Voice Response
+      - entity: automation.chicken_morning_greeting
+        name: Morning Greeting
+      - entity: automation.chicken_random_response
+        name: Random Responses
+
+  # Advanced: Custom button row
+  - type: custom:button-card
+    name: Emergency Stop
+    icon: mdi:stop-circle
+    color: red
+    tap_action:
+      action: call-service
+      service: input_boolean.turn_off
+      target:
+        entity_id: input_boolean.chicken_enabled
+    styles:
+      card:
+        - height: 60px
+      name:
+        - font-size: 16px
+
+  # Statistics (optional - requires history)
+  - type: history-graph
+    title: Activity History
+    entities:
+      - entity: input_boolean.chicken_enabled
+    hours_to_show: 24
+    refresh_interval: 60

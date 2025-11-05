@@ -1,0 +1,101 @@
+# Home Assistant Configuration for Chicken Assistant
+# Add these sections to your main configuration.yaml file
+
+# Shell commands to control the chicken
+shell_command:
+  chicken_respond: "/usr/bin/python3 /config/chicken-assistant-skill/homeassistant/scripts/chicken_control.py respond"
+  chicken_move: "/usr/bin/python3 /config/chicken-assistant-skill/homeassistant/scripts/chicken_control.py move"
+  chicken_sound: "/usr/bin/python3 /config/chicken-assistant-skill/homeassistant/scripts/chicken_control.py sound"
+
+# Scripts for easier automation use
+script:
+  chicken_assistant_respond:
+    alias: "Chicken Responds"
+    description: "Makes the chicken respond with sound and movement"
+    sequence:
+      - service: shell_command.chicken_respond
+      - delay:
+          seconds: 3
+
+  chicken_assistant_move_only:
+    alias: "Chicken Moves"
+    description: "Makes the chicken move servos only"
+    sequence:
+      - service: shell_command.chicken_move
+
+  chicken_assistant_sound_only:
+    alias: "Chicken Sound"
+    description: "Plays chicken sound only"
+    sequence:
+      - service: shell_command.chicken_sound
+
+# Intent scripts to handle voice commands
+intent_script:
+  ChickenMoana:
+    speech:
+      text: "Bawk bawk bawk!"
+    action:
+      - service: script.chicken_assistant_respond
+
+  ChickenGreeting:
+    speech:
+      text: "Bawk bawk!"
+    action:
+      - service: script.chicken_assistant_respond
+
+  ChickenReminder:
+    speech:
+      text: "Bawk bawk bawk bawk!"
+    action:
+      - service: script.chicken_assistant_respond
+
+  ChickenSound:
+    speech:
+      text: "Here you go!"
+    action:
+      - service: script.chicken_assistant_respond
+
+# Input helpers for manual control and automation
+input_boolean:
+  chicken_enabled:
+    name: "Chicken Assistant Enabled"
+    icon: mdi:bird
+
+input_select:
+  chicken_response_type:
+    name: "Chicken Response Type"
+    options:
+      - "Full Response (Sound + Movement)"
+      - "Movement Only"
+      - "Sound Only"
+    initial: "Full Response (Sound + Movement)"
+    icon: mdi:gesture-tap
+
+# Automations (can also be created via UI)
+automation:
+  - id: chicken_assistant_voice_trigger
+    alias: "Chicken Assistant - Voice Trigger"
+    description: "Responds when chicken is mentioned via voice"
+    trigger:
+      - platform: conversation
+        command:
+          - "where is moana"
+          - "were you in moana"
+    condition:
+      - condition: state
+        entity_id: input_boolean.chicken_enabled
+        state: "on"
+    action:
+      - service: script.chicken_assistant_respond
+
+# Optional: Template sensors for status
+template:
+  - sensor:
+      - name: "Chicken Assistant Status"
+        state: >
+          {% if is_state('input_boolean.chicken_enabled', 'on') %}
+            Ready
+          {% else %}
+            Disabled
+          {% endif %}
+        icon: mdi:robot
