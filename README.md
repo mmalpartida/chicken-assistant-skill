@@ -13,17 +13,23 @@ https://github.com/FRC4564/Maestro
 
 See the project at: https://makeprojects.com/project/chicken-robot-voice-assistant
 
-## Project Status - Legacy/Historical
+## Project Status - OVOS Compatible!
 
-**Note:** This project was built for the Mycroft AI platform, which ceased operations in 2023. While the code has been preserved and bugs fixed, it is primarily maintained as a historical reference and learning resource.
+**Migrated to OVOS!** This skill has been updated for OVOS (Open Voice OS), the spiritual successor to Mycroft AI. While originally built for Mycroft (which ceased operations in 2023), the skill is now fully compatible with OVOS and actively maintained.
 
-For those interested in continuing voice assistant development, consider these alternatives:
-- **OVOS** (Open Voice OS) - Community-driven Mycroft successor
-- **Neon AI** - Another Mycroft-compatible platform
-- **Home Assistant** with voice integration
-- Modern alternatives like Rhasspy or other open-source voice platforms
+### Platform Support
+- ✅ **OVOS** (Open Voice OS) - Primary platform, fully supported
+- ✅ **Neon AI** - Should work with minimal changes
+- 🔄 **Home Assistant** - Future integration planned
 
-### Recent Bug Fixes (2025)
+### Recent Updates (2025)
+**OVOS Migration:**
+- Restructured as proper Python package with setup.py
+- Added OVOS plugin entry point registration
+- Created version tracking system
+- Added comprehensive requirements.txt
+
+**Bug Fixes:**
 - Fixed missing parentheses on `servo.close()` calls
 - Corrected `random.choice()` usage with dictionary in main handler
 - Fixed typo in test.py (setAccel → setTarget)
@@ -44,11 +50,71 @@ The chicken responds with audio clips and servo movements!
 
 ## Installation
 
-This skill requires:
-1. A Mycroft installation (or compatible fork like OVOS)
-2. Serial connection to Pololu Maestro on `/dev/ttyAMA0`
-3. Audio files included in the repo
-4. pyserial library for serial communication
+### Prerequisites
+- OVOS installation (see https://openvoiceos.org/ for setup)
+- Raspberry Pi with Python 3.7+
+- Pololu Maestro servo controller connected to `/dev/ttyAMA0`
+- Serial permissions configured (user in `dialout` group)
+
+### Install from Source (Development)
+
+1. Clone this repository:
+```bash
+git clone https://github.com/mmalpartida/chicken-assistant-skill.git
+cd chicken-assistant-skill
+```
+
+2. Install in development mode:
+```bash
+pip install -e .
+```
+
+3. Restart OVOS:
+```bash
+systemctl --user restart ovos
+```
+
+### Install from PyPI (Future)
+```bash
+pip install ovos-skill-chicken-assistant
+```
+
+### Verify Installation
+Check that OVOS recognizes the skill:
+```bash
+ovos-skill list | grep chicken
+```
+
+### Configuration
+
+#### Serial Port Permissions
+Make sure your user has access to the serial port:
+```bash
+sudo usermod -a -G dialout $USER
+# Log out and back in for changes to take effect
+```
+
+#### Test Serial Connection
+You can test the servo controller independently:
+```bash
+cd chicken-assistant-skill
+python test.py
+```
+
+### Troubleshooting
+
+**Skill not loading?**
+- Check OVOS logs: `journalctl --user -u ovos -f`
+- Verify plugin entry point: `pip show ovos-skill-chicken-assistant`
+
+**Serial port errors?**
+- Verify device exists: `ls -l /dev/ttyAMA0`
+- Check permissions: `groups` (should include `dialout`)
+- Test with `test.py` script first
+
+**Audio not playing?**
+- Check OVOS audio service is running
+- Verify speaker configuration in OVOS settings
 
 ## Credits
 Mitchell Malpartida

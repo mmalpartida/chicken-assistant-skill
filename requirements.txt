@@ -1,0 +1,2 @@
+ovos-core>=0.0.8
+pyserial>=3.5
