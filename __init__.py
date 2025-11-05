@@ -26,7 +26,7 @@ class ChickenAssistant(MycroftSkill):
 
     @intent_handler('assistant.chicken.intent')
     def handle_assistant_chicken(self, message):
-        path = random.choice(self.play_list)
+        path = random.choice(list(self.play_list.values()))
         try:
             #self.speak_dialog('assistant.chicken')
             #wait_while_speaking()
@@ -35,7 +35,7 @@ class ChickenAssistant(MycroftSkill):
             servo.runScriptSub(0)
             time.sleep(2)
             servo.runScriptSub(1)
-            servo.close
+            servo.close()
            
 
 
